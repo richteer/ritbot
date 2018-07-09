@@ -45,10 +45,10 @@ class SignupPost():
 	def generate_message(self):
 		tmp = sorted(self.responses.values(), key=lambda x: x[2])
 		# Sort by the local timestamp of when this person reacted (always take last one)
-		attend = [u[0].name for u in tmp if u[1] == SignupPost.ATTEND]
-		bail   = [u[0].name for u in tmp if u[1] == SignupPost.BAIL]
-		maybe  = [u[0].name for u in tmp if u[1] == SignupPost.MAYBE]
-		late   = [u[0].name for u in tmp if u[1] == SignupPost.LATE]
+		attend = [u[0].display_name for u in tmp if u[1] == SignupPost.ATTEND]
+		bail   = [u[0].display_name for u in tmp if u[1] == SignupPost.BAIL]
+		maybe  = [u[0].display_name for u in tmp if u[1] == SignupPost.MAYBE]
+		late   = [u[0].display_name for u in tmp if u[1] == SignupPost.LATE]
 
 		role = discord.utils.get(self.channel.server.roles, name="Raider")
 
