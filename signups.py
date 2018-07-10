@@ -3,6 +3,8 @@ import discord
 from datetime import datetime
 from emoji import emojize as emojiA
 
+config = {}
+
 def emoji(s):
 	return emojiA(s, use_aliases=True)
 

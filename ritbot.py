@@ -4,7 +4,7 @@ import asyncio
 import logging
 from emoji import emojize as emojiA
 
-
+import roles
 import signups
 
 def emoji(s):
@@ -89,10 +89,13 @@ async def on_reaction_add(reaction, user):
 
 	await pst.update()
 
+# TODO: make this "plugin" system work a little better...
+signups.config = config.get("signups",{})
+roles.config = config.get("roles",{})
 
 commands = {
 	"post": signups._post,
-#	"roles": _roles,
+	"active": roles._active,
 
 }
 
