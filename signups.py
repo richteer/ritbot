@@ -2,7 +2,7 @@ import asyncio
 import discord
 from datetime import datetime
 from emoji import emojize as emojiA
-from ritutils import channelbind
+from ritutils import channelbind, rolebind
 
 config = {}
 
@@ -80,6 +80,7 @@ class SignupPost():
 post_cache = {}
 
 @channelbind(["bot"])
+@rolebind(["Officer"])  # should be handled by discord perms, but to be safe
 async def _post(client, msg, arg):
 	channel = msg.channel
 	await client.delete_message(msg)
