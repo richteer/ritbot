@@ -87,3 +87,32 @@ async def _post(client, msg, arg):
 	pst = SignupPost(client, channel, " ".join(arg))
 	await pst.init()
 	post_cache[pst.post.id] = pst
+
+
+@channelbind(["bot"])
+async def _on_reaction_add(client, reaction, user):
+	# Ignore reactions on non-signup posts
+	if user == client.user:
+		return
+
+	pst = signups.post_cache.get(reaction.message.id)
+	if not pst:
+		return
+
+	if reaction.emoji == emoji(":white_check_mark:"):
+		pst.attend(user)
+	elif reaction.emoji == emoji(":x:"):
+		pst.bail(user)
+	elif reaction.emoji == emoji(":question:"):
+		pst.maybe(user)
+	elif reaction.emoji == emoji(":clock10:"):
+		pst.late(user)
+
+	try:
+		await client.remove_reaction(reaction.message, reaction.emoji, user)
+	except Exception as e:
+		print(e)
+
+	await asyncio.sleep(0.3)
+
+	await pst.update()
