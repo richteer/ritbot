@@ -2,6 +2,7 @@ import asyncio
 import discord
 from datetime import datetime
 from emoji import emojize as emojiA
+from ritutils import channelbind
 
 config = {}
 
@@ -78,7 +79,7 @@ class SignupPost():
 
 post_cache = {}
 
-
+@channelbind(["bot"])
 async def _post(client, msg, arg):
 	channel = msg.channel
 	await client.delete_message(msg)
