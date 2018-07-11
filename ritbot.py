@@ -2,6 +2,7 @@ import json, os
 import discord
 import asyncio
 import logging
+import random
 from emoji import emojize as emojiA
 
 import roles
@@ -33,6 +34,14 @@ if loglevel:
 logging.basicConfig(filename=config.get("log-file"), level=loglevel)
 log = logging.getLogger() # TODO: split features into files probably
 
+async def change_status():
+	ls = config.get("status-list", [])
+	if not ls:
+		return # don't bother if we don't have any
+	while True:
+		status = random.choice(ls)
+		await client.change_presence(game=discord.Game(name=status))
+		await asyncio.sleep(config.get("presence-timer", 3600))
 
 ### Discord setup and boilerplate
 
@@ -40,7 +49,9 @@ client = discord.Client()
 
 @client.event
 async def on_ready():
-	pass
+	loop = asyncio.get_event_loop()
+	loop.create_task(change_status())
+	print("test")
 
 @client.event
 async def on_message(message):
