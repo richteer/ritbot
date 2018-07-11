@@ -4,7 +4,7 @@ from ritutils import channelbind
 # This might not be needed?
 config = {}
 
-@channelbind(["sandbox"])
+@channelbind(["bot"])
 async def _active(client, msg, args):
 	if discord.utils.get(msg.server.roles, name="Guild Member") in msg.author.roles:
 		role = discord.utils.get(msg.server.roles, name="Raider")
