@@ -74,7 +74,7 @@ async def on_message(message):
 
 @client.event
 async def on_reaction_add(reaction, user):
-	signups._on_reaction_add(client, reaction, user)
+	await signups._on_reaction_add(client, reaction, user)
 
 # TODO: make this "plugin" system work a little better...
 signups.config = config.get("signups",{})
