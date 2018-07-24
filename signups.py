@@ -53,7 +53,7 @@ class SignupPost():
 		maybe  = [u[0].display_name for u in tmp if u[1] == SignupPost.MAYBE]
 		late   = [u[0].display_name for u in tmp if u[1] == SignupPost.LATE]
 
-		role = discord.utils.get(self.channel.server.roles, name="Raider")
+		role = discord.utils.get(self.channel.server.roles, name=config["ping-role"])
 
 		ret = '''
 {0}
