@@ -79,7 +79,7 @@ class SignupPost():
 
 post_cache = {}
 
-@channelbind(["bot"])
+@channelbind(["signups"])
 @rolebind(["Officer"])  # should be handled by discord perms, but to be safe
 async def _post(client, msg, arg):
 	channel = msg.channel
@@ -90,7 +90,7 @@ async def _post(client, msg, arg):
 	post_cache[pst.post.id] = pst
 
 
-@channelbind(["bot"])
+@channelbind(["signups"])
 async def _on_reaction_add(client, reaction, user):
 	# Ignore reactions on non-signup posts
 	if user == client.user:
