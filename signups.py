@@ -96,7 +96,7 @@ async def _on_reaction_add(client, reaction, user):
 	if user == client.user:
 		return
 
-	pst = signups.post_cache.get(reaction.message.id)
+	pst = post_cache.get(reaction.message.id)
 	if not pst:
 		return
 
