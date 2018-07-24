@@ -66,13 +66,13 @@ class SignupPost():
 '''.format(self.text, role.mention)
 
 		if attend:
-			ret += "\nAttending:\n{}\n".format("\n".join(attend))
+			ret += "\n**Attending** ({0}):\n{1}\n".format(len(attend), "\n".join(attend))
 		if maybe:
-			ret += "\nMaybe:\n{}\n".format("\n".join(maybe))
+			ret += "\n**Maybe** ({0}):\n{1}\n".format(len(maybe), "\n".join(maybe))
 		if late:
-			ret += "\nLate:\n{}\n".format("\n".join(late))
+			ret += "\n**Late** ({0}):\n{1}\n".format(len(late), "\n".join(late))
 		if bail:
-			ret += "\nUnavailable:\n{}\n".format("\n".join(bail))
+			ret += "\n**Unavailable** ({0}):\n{1}\n".format(len(bail), "\n".join(bail))
 
 		return ret
 
