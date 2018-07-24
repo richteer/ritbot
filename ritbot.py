@@ -86,5 +86,11 @@ commands = {
 
 }
 
+loop = asyncio.get_event_loop()
+while True:
+	try:
+		loop.run_until_complete(client.start(config["token"], reconnect=True))
+	except Exception as e:
+		log.error("Something went haywire: {}".format(e))
+	loop.run_until_complete(asyncio.sleep(5))
 
-client.run(config["token"])
