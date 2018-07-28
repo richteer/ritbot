@@ -87,10 +87,23 @@ commands = {
 }
 
 loop = asyncio.get_event_loop()
-while True:
-	try:
-		loop.run_until_complete(client.start(config["token"], reconnect=True))
-	except Exception as e:
-		log.error("Something went haywire: {}".format(e))
-	loop.run_until_complete(asyncio.sleep(5))
+
+async def main():
+	count = 0
+	while True:
+		try:
+			await client.login(config["token"])
+			await client.connect()
+			count = 0
+		except Exception as e:
+			log.error("Something went wrong: {}".format(str(e)))
+
+		await asyncio.sleep(5)
+		count += 1
+
+		if count >= 30:
+			log.error("Detected too many failed reconnects, giving up I suppose")
+			return
+
+loop.run_until_complete(main())
 
