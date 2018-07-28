@@ -117,3 +117,63 @@ async def _on_reaction_add(client, reaction, user):
 	await asyncio.sleep(0.3)
 
 	await pst.update()
+
+
+
+async def reprocess_post(client, msg):
+	ls = msg.content.split("\n\n")
+	print(ls)
+	post = SignupPost(client, msg.channel, ls[0])
+	post.post = msg
+	post_cache[msg.id] = post
+
+	for l in ls[2:]:
+		l = l.split("\n")
+		if "Attending" in l[0]:
+			for a in l[1:]:
+				user = discord.utils.get(msg.server.members, display_name=a)
+				if not user:
+					print("error recalling user '{}'".format(a))
+					continue
+				post.attend(user)
+		elif "Maybe" in l[0]:
+			for a in l[1:]:
+				user = discord.utils.get(msg.server.members, display_name=a)
+				if not user:
+					print("error recalling user '{}'".format(a))
+					continue
+				post.maybe(user)
+		elif "Late" in l[0]:
+			for a in l[1:]:
+				user = discord.utils.get(msg.server.members, display_name=a)
+				if not user:
+					print("error recalling user '{}'".format(a))
+					continue
+				post.late(user)
+		elif "Unavailable" in l[0]:
+			for a in l[1:]:
+				user = discord.utils.get(msg.server.members, display_name=a)
+				if not user:
+					print("error recalling user '{}'".format(a))
+					continue
+				post.bail(user)
+
+	for r in msg.reactions:
+			print(r.count)
+			if r.me:
+					continue
+
+
+async def _on_start(client):
+	chan = discord.utils.get(client.get_all_channels(), name="signups")
+	if not chan:
+		print("can't find signups channel, probably won't be able to restore state")
+		return
+
+	msgs = client.logs_from(chan, limit=10)
+
+	async for m in msgs:
+		if m.author.id != client.user.id:
+			continue
+
+		await reprocess_post(client, m)

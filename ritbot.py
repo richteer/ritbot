@@ -51,7 +51,8 @@ client = discord.Client()
 async def on_ready():
 	loop = asyncio.get_event_loop()
 	loop.create_task(change_status())
-	print("test")
+
+	await signups._on_start(client)
 
 @client.event
 async def on_message(message):
